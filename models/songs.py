@@ -1,7 +1,7 @@
 """Create user for maintain profile for funflix."""
 import enum
-import sqlalchemy as sa
 
+from config import db
 
 class Choice(enum.Enum):
     """Sqlalchemy utils for choice class"""
@@ -9,7 +9,7 @@ class Choice(enum.Enum):
     hindi = 2
 
 
-class Songs:
+class Songs(db.Model):
     """
     A table to stores songs details.
 
@@ -18,23 +18,23 @@ class Songs:
     """
     __tablename__ = "songs"
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    name = sa.Column(sa.String(length=40), nullable=False)
-    language = sa.Column(sa.Enum(Choice))
-    artist_id = sa.Column(
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(length=40), nullable=False)
+    language = db.Column(db.Enum(Choice))
+    artist_id = db.Column(
         "artist_id",
-        sa.ForeignKey("artist.id")
+        db.ForeignKey("artist.id")
     )
-    dfs_path = sa.Column(sa.String(length=50), nullable=False)
-    picture_path = sa.Column(sa.String(length=50), nullable=False)
+    dfs_path = db.Column(db.String(length=50), nullable=False)
+    picture_path = db.Column(db.String(length=50), nullable=False)
 
 
-class Artist:
+class Artist(db.Model):
     """
     A table to stores artis details.
     """
     __tablename__ = "artist"
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    name = sa.Column(sa.String(length=40), nullable=False)
-    picture_path = sa.Column(sa.String(length=50), nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(length=40), nullable=False)
+    picture_path = db.Column(db.String(length=50), nullable=False)

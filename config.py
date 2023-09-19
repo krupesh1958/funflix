@@ -5,13 +5,14 @@ Flask configuration.
 from __future__ import annotations
 
 import os
-import json
-import sys
-import unittest
+
+from typing import Any
 
 from flask import Flask
-from alembic import op
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
+from models import import_all_models
 
 __verions__ = '0.1'
 
@@ -23,15 +24,6 @@ server.config.update(
     SQLALCHEMY_TRACK_MODIFICATIONS=True
 )
 
-
-def build_table():
-    """
-    We import all tables from models 
-    and use alembic commands to build tables.
-    """
-    from models import import_all_models
-    
-    op.create_table()
-    
-
-op.create_table()
+db = SQLAlchemy(server)
+Migrate(server, db)
+import_all_models()
