@@ -6,8 +6,6 @@ from __future__ import annotations
 
 import os
 
-from typing import Any
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
