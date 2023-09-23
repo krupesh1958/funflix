@@ -8,9 +8,20 @@ from models.user import User
 from models.songs import Songs
 
 
+
 @server.route('/songs', methods=['POST', 'GET'])
 def get_songs():
     songs = Songs.query.all()
+
+    # Import traversal algorithm
+    from algorithms.doubly_linked_list import DoublyLinkedList
+
+    dll = DoublyLinkedList()
+
+    # Link all songs withing a linked-list.
+    for itr in songs:
+        dll.insert_at_tail(itr.id)
+   
     return jsonify(songs, status=201, mimetype="application/json")
 
 
@@ -18,6 +29,5 @@ def get_songs():
 def playlist():
     user_playlist = User.query.filter_by(id=1).first()
 
-    # Bind linked list nodes.
-
+    print(user_playlist)
     return jsonify()

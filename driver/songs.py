@@ -47,7 +47,7 @@ class _Songs:
         song.set_song(**_dict)
         return
 
-# For create data 
+# For create data
 """
 sg = _Songs(
     name="Maan meri jaan",
