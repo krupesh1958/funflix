@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import datetime
 
-from models.user import User
+from app.models import User
 
 
 def create_user():

@@ -2,7 +2,7 @@
 """Driver code to add artist or delete and other functionality related artist."""
 from __future__ import annotations
 
-from models.songs import Artist
+from app.models import Artist
 
 
 def create_artist_profile():
@@ -16,7 +16,7 @@ def create_artist_profile():
         "name": "Atif Asalam",
         "picture_path": "/artist/pictures/",
     }
-    artist_obj.set_artist(**_dict)
-    return
+    artist_obj.set_artist(_dict)
+    return None
 
 create_artist_profile()

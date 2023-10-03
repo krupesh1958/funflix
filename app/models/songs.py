@@ -1,7 +1,7 @@
 """Create user for maintain profile for funflix."""
 import enum
 
-from config import db, server
+from app.extensions import alchemy as db
 
 
 class Choice(enum.Enum):
@@ -47,19 +47,18 @@ class Songs(db.Model):
         :type kwargs: dict
         :rtype: str
         """
-        with server.app_context():
-            songs: tuple(Songs) = Songs(
-                name=kwargs.get("name", None),
-                language=kwargs.get("language", None),
-                artist_id=kwargs.get("artist_id", None),
-                dfs_path=kwargs.get("dfs_path", None),
-                picture_path=kwargs.get("picture_path", None)
-            )
-            assert None not in songs.__dict__, "All field are required."
+        songs: tuple(Songs) = Songs(
+            name=kwargs.get("name", None),
+            language=kwargs.get("language", None),
+            artist_id=kwargs.get("artist_id", None),
+            dfs_path=kwargs.get("dfs_path", None),
+            picture_path=kwargs.get("picture_path", None)
+        )
+        assert None not in songs.__dict__, "All field are required."
 
-            db.session.add(songs)
-            db.session.commit()
-            return "success", 201, {}
+        db.session.add(songs)
+        db.session.commit()
+        return "success", 201, {}
         
 
     def set_songs(self, songs):
@@ -70,12 +69,11 @@ class Songs(db.Model):
         :type kwargs: dict
         :rtype: str
         """
-        with server.app_context():
-            assert not isinstance(songs, list), "param require in list"
+        assert not isinstance(songs, list), "param require in list"
 
-            db.session.add_all(songs)
-            db.session.commit()
-            return "success", 201, {}
+        db.session.add_all(songs)
+        db.session.commit()
+        return "success", 201, {}
 
 
 class Artist(db.Model):
@@ -91,7 +89,7 @@ class Artist(db.Model):
 
     def set_artist(self, **kwargs):
         """
-       A method insert artist data
+        A method insert artist data
 
         >>> kwargs = {
             "name": song_name,
@@ -103,13 +101,12 @@ class Artist(db.Model):
         :type kwargs: dict
         :rtype: str
         """
-        with server.app_context():
-            artist: tuple(Artist) = Artist(
-                name=kwargs.get("name", None),
-                picture_path=kwargs.get("picture_path", None)
-            )
-            assert None not in artist.__dict__, "All field are required."
+        artist: tuple(Artist) = Artist(
+            name=kwargs.get("name", None),
+            picture_path=kwargs.get("picture_path", None)
+        )
+        assert None not in artist.__dict__, "All field are required."
 
-            db.session.add(artist)
-            db.session.commit()
-            return "success", 201, {}
+        db.session.add(artist)
+        db.session.commit()
+        return "success", 201, {}
