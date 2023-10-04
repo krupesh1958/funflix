@@ -2,7 +2,7 @@
 """
 Run Funflix flask application.
 """
-from config import server
+from config import server as server
 
 
 if __name__ == "__main__":
