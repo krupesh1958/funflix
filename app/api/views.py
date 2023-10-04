@@ -1,19 +1,20 @@
 """Load music data in front-end"""
 from __future__ import annotations
 
-from flask import jsonify
+from app.models import *
 
-from config import server
-from models.user import User
-from models.songs import Songs
+from flask import (
+    Blueprint,
+    render_template
+)
 
 
+home = Blueprint("home", __name__)
 
-@server.route('/songs', methods=['POST', 'GET'])
+@home.route('/', methods=['POST', 'GET'])
 def get_songs():
     songs = Songs.query.all()
 
-    # Import traversal algorithm
     from algorithms.doubly_linked_list import DoublyLinkedList
 
     dll = DoublyLinkedList()
@@ -21,13 +22,15 @@ def get_songs():
     # Link all songs withing a linked-list.
     for itr in songs:
         dll.insert_at_tail(itr.id)
-   
-    return jsonify(songs, status=201, mimetype="application/json")
+
+    return render_template(
+        "load_music.html",
+    )
 
 
-@server.route('/playlist', methods=['POST', 'GET'])
+@home.route('/playlist', methods=['POST', 'GET'])
 def playlist():
     user_playlist = User.query.filter_by(id=1).first()
 
     print(user_playlist)
-    return jsonify()
+    return render_template()

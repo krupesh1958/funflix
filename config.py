@@ -2,18 +2,17 @@
 Impliment funflix application with flask framework.
 Flask configuration.
 """
-from __future__ import annotations
-
 import os
-import redis
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from app.models import *
+from app.api import home
+from app.extensions import (
+    Flask,
+    alchemy,
+    migrate
+)
 
-from models import import_all_models
-from app import import_all_apis
-
+__author__ = "https://github.com/Krupeshgithub?tab=repositories"
 __verions__ = '0.1'
 
 server = Flask(__name__)
@@ -24,17 +23,15 @@ server.config.update(
     SQLALCHEMY_TRACK_MODIFICATIONS=True
 )
 
+
 # Database configurations
-db = SQLAlchemy(server)
-Migrate(server, db)
-import_all_models()
+alchemy.init_app(server)
+migrate.init_app(server, alchemy)
 
-# Cofig all apis
-import_all_apis()
 
-# Flask redis
-redist_client = redis.StrictRedis(
-    host='localhost',
-    port=6379,
-    decode_responses=True
+# Bind all backend end points in 
+# flask application with blueprint
+server.register_blueprint(
+    blueprint=home,
+    url_prefix="/api/v1/"
 )

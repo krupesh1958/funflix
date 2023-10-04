@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Driver code to add songs, del songs & more functionalitys with hdfs path."""
-from __future__ import annotations
+from __future__ import absolute_import
 
-from models.songs import Songs
+import sys
+sys.path.append('../')
+from app.models import Songs
 
 
 class _Songs:
     """A class create, delete or update songs"""
-
 
     def __init__(
         self,
@@ -19,7 +20,7 @@ class _Songs:
     ):
         """
         Initialize songs properties
-        
+
         :type name: str
         :type language: str
         :type artist_id: int
@@ -48,7 +49,6 @@ class _Songs:
         return
 
 # For create data
-"""
 sg = _Songs(
     name="Maan meri jaan",
     language="hindi",
@@ -57,4 +57,3 @@ sg = _Songs(
     picture_path="/songs_pics/song_pic_1.jpeg"  # hdfs (Hadoop distributed file system) path
 )
 sg.insert_song()
-"""

@@ -3,13 +3,11 @@ from __future__ import annotations
 
 import datetime
 
-from config import db, server
+from app.extensions import alchemy as db
 
 
 class User(db.Model):
-    """
-    A table store user data.
-    """
+    """A table store user data"""
 
     __tablename__ = "user"
 
@@ -48,16 +46,15 @@ class User(db.Model):
         :type kwargs: dict
         :rtype: str
         """
-        with server.app_context():
-            user_data: tuple(User) = User(
-                name=kwargs.get("name", None),
-                email=kwargs.get("email", None),
-                access_token=kwargs.get("access_token", None),
-                dob=kwargs.get("dob", None),
-                multi_playlist=str(kwargs.get("multi_playlist", None))
-            )
-            assert None not in user_data.__dict__, "All field are required."
+        user_data: tuple(User) = User(
+            name=kwargs.get("name", None),
+            email=kwargs.get("email", None),
+            access_token=kwargs.get("access_token", None),
+            dob=kwargs.get("dob", None),
+            multi_playlist=str(kwargs.get("multi_playlist", None))
+        )
+        assert None not in user_data.__dict__, "All field are required."
 
-            db.session.add(user_data)
-            db.session.commit()
-            return "success", 201, {}
+        db.session.add(user_data)
+        db.session.commit()
+        return "success", 201, {}
